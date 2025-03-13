@@ -35,21 +35,30 @@ for sim_num in range(NUM_SIMULATIONS):
     
     # 収入が支出を上回るまでシミュレーション続行
     while total_income < total_expense:
-        dice1 = random.randint(1, 6)  # 1つ目のサイコロ
+        dice1 = random.randint(1, 6)  # 1つ目のサイコロ - 勧誘回数を決定
+        
+        # この人に対する勧誘回数と費用
+        person_meeting_count = dice1
+        person_expense = 0
+        
+        # この人への勧誘を実行
+        for i in range(person_meeting_count):
+            # 勧誘回数カウント
+            meeting_count += 1
+            
+            # 勧誘費用の追加
+            meeting_expense = CAFE_COST
+            if meeting_count % 3 == 0:  # 3回ごとに交通費
+                meeting_expense += TRANSPORT_COST
+            
+            person_expense += meeting_expense
+        
+        # 勧誘費用の合計を追加
+        total_expense += person_expense
+        
+        # 勧誘成功の判定
         dice2 = random.randint(1, 6)  # 2つ目のサイコロ
-        
-        # 勧誘回数カウント
-        meeting_count += 1
-        
-        # 勧誘費用の追加
-        meeting_expense = CAFE_COST
-        if meeting_count % 3 == 0:  # 3回ごとに交通費
-            meeting_expense += TRANSPORT_COST
-        
-        total_expense += meeting_expense
-        
-        # 勧誘成功の場合
-        if dice2 == 1:
+        if dice2 == 1:  # 勧誘成功
             recruitment_count += 1
             # 1人勧誘成功で得られる理論収入
             total_income += CONVERGENCE_INCOME
